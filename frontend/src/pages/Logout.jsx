@@ -10,6 +10,7 @@ function Logout(props) {
         .then(response=>{
             alert("You're successfully logged out!")
             setAuthenticated(false)
+            sessionStorage.clear()
             navigate("/login")
         })
         .catch(err=>{

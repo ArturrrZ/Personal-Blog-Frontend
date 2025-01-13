@@ -8,12 +8,15 @@ function ProtectedRoute({ children }) {
       try {
         const response = await api.get('/api/user/check-auth/');
         console.log(response.data);
+        sessionStorage.setItem('username', response.data.user)
       } catch (error) {
         console.log('Access token is expired');
         // REFRESH token
         api.get("/api/user/refresh_token/")
         .then(res=>{console.log(res.data)})
-        .catch(err=>{navigate("/login")})
+        .catch(err=>{
+          alert("You need to be logged in!")
+          navigate("/login")})
       }
     };
 
