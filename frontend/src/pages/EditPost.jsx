@@ -111,7 +111,7 @@ function CreatePost() {
           files: [],
         });
         navigate(`/user/${username}`) 
-    }, 3000)
+    }, 1000)
   })
     .catch(function (error) {
       console.log(error);

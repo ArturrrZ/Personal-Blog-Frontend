@@ -9,9 +9,17 @@ import FeedIcon from '@mui/icons-material/Feed';
 import { Link } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
+// 
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import { Divider } from '@mui/material';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -58,6 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar(props) {
     const {authenticated, user, creator} = props
+    const username = sessionStorage.getItem("username")
     const navigate = useNavigate()
     const [searchQuery, setSearchQuery] = React.useState("")
     const handleSearchChange = (e)=> {
@@ -68,6 +77,28 @@ export default function NavBar(props) {
       navigate(`/user/${searchQuery}`)
       setSearchQuery("")
     }
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleChange = (event) => {
+    setAuth(event.target.checked);
+  };
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (e) => {
+    setAnchorEl(null);
+    if (e.target.id === 'profile') {
+      navigate(`/user/${username}`)
+    }
+    else if (e.target.id === 'logout') {
+      navigate("/logout/")
+    }
+    else if (e.target.id === 'create'){
+      navigate("/post/create/")
+    }
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -99,11 +130,42 @@ export default function NavBar(props) {
             />
           </Search>
           </form>
-
-          {authenticated&&(creator&&<Link to="/post/create"><Button color="inherit">create a post</Button></Link>)}
+          {authenticated&&(
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose} id="profile">Profile</MenuItem>
+                {creator&&<MenuItem onClick={handleClose} id="create">Create a post</MenuItem>}
+                <Divider/>
+                <MenuItem onClick={handleClose} id="logout">Logout</MenuItem>
+              </Menu>
+            </div>
+          )}
           {!authenticated&&<Link to="login"><Button color="inherit">Login</Button></Link>}
           {!authenticated&&<Link to="register"><Button color="inherit">Register</Button></Link>}
-          {authenticated&&<Link to="logout"><Button color="inherit">Logout</Button></Link>}
         </Toolbar>
       </AppBar>
     </Box>

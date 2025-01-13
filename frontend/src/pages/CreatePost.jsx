@@ -78,7 +78,7 @@ function CreatePost() {
           is_paid: false,
           files: [],
         }); 
-    }, 5000)
+    }, 2000)
   })
     .catch(function (error) {
       console.log(error);
