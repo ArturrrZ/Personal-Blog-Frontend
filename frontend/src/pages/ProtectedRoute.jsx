@@ -9,6 +9,8 @@ function ProtectedRoute({ children }) {
         const response = await api.get('/api/user/check-auth/');
         console.log(response.data);
         sessionStorage.setItem('username', response.data.user)
+        sessionStorage.setItem('is_creator', response.data.is_creator)
+        sessionStorage.setItem('is_authenticated', response.data.is_authenticated)
       } catch (error) {
         console.log('Access token is expired');
         // REFRESH token

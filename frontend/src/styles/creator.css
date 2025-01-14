@@ -1,0 +1,6 @@
+.creator_change {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 30%;
+    gap: 15px;
+}
