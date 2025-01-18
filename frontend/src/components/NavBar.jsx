@@ -101,7 +101,7 @@ export default function NavBar(props) {
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" position="fixed" className="sticky-nav">
         <Toolbar>
           <IconButton
             size="large"

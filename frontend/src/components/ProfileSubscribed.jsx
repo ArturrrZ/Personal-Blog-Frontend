@@ -17,7 +17,7 @@ function ProfileSubscribed(props) {
       <div className='profile-main-grid'>
       <Column0 data={data}/>
       <Column1 data={data}/>
-      <div className='column2'></div>
+      <div className=''></div>
       </div>
     </div>
   )

@@ -33,19 +33,21 @@ function App() {
   },[])
   return (
     <BrowserRouter>
-      <NavBar user={user} authenticated={authenticated} creator={creator}/> 
+      <NavBar user={user} authenticated={authenticated} creator={creator}/>
+      <div className='main-content'>
       <Routes>
         <Route path='/' element={<ProtectedRoute><Home/></ProtectedRoute>}/>
-        <Route path='/login'  element={<AuthorizationRoute authenticated={authenticated}><Login setAuthenticated={setAuthenticated}/></AuthorizationRoute>}/>
+        <Route path='/login'  element={<AuthorizationRoute authenticated={authenticated} ><Login setAuthenticated={setAuthenticated} setCreator={setCreator}/></AuthorizationRoute>}/>
         <Route path='/register' element={<AuthorizationRoute authenticated={authenticated}><Register/></AuthorizationRoute>}/>
-        <Route path='/logout' element={<ProtectedRoute><Logout setAuthenticated={setAuthenticated}/></ProtectedRoute>}/>
+        <Route path='/logout' element={<ProtectedRoute><Logout setAuthenticated={setAuthenticated} setCreator={setCreator}/></ProtectedRoute>}/>
         <Route path='/user/:username' element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
-        <Route path='/creator/become/' element={<ProtectedRoute><BecomeCreator /></ProtectedRoute>}/>
+        <Route path='/creator/become/' element={<ProtectedRoute><BecomeCreator setCreator={setCreator}/></ProtectedRoute>}/>
         <Route path='/post/create' element={<ProtectedRoute><CreatePost /></ProtectedRoute>}/>
         <Route path='/post/edit/:id/' element={<ProtectedRoute><EditPost /></ProtectedRoute>}/>
         <Route path='/404' element={<NotFound/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>
+      </div> 
     </BrowserRouter>
   )
 }

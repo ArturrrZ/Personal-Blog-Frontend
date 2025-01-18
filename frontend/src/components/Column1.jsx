@@ -20,6 +20,9 @@ function Column1(props) {
     <div className='column1'>
       <div className='column1_top_part'>
       <div className='about_creator'>ABOUT THE CREATOR</div>
+      <p>{data.profile.first_name} {data.profile.last_name}</p>
+      <p>Total posts: {data.profile.posts_total}</p>
+      <p>Private content: {data.profile.posts_paid}</p>
       <Divider sx={{margin: "20px 0px"}}/>
       <div>{data.profile.about}</div>
       </div>

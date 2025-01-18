@@ -20,7 +20,8 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
   });
 
-function BecomeCreator() {
+function BecomeCreator(props) {
+    const {setCreator} = props
     const navigate = useNavigate();
     const is_creator = sessionStorage.getItem("is_creator");
     const username = sessionStorage.getItem("username");
@@ -69,7 +70,11 @@ function BecomeCreator() {
           'Content-Type': 'multipart/form-data',
         }
       })
-      .then(res=>{console.log(res.data)})
+      .then(res=>{
+        console.log(res.data)
+        setCreator(true)
+        navigate(`/user/${username}`)
+      })
       .catch(err=>{console.log(err)})
     };
                       

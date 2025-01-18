@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import "../styles/post.css"
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -39,6 +39,15 @@ function Post(props) {
         console.log('Post deleted successfully');}) 
       .catch(err => { alert("An error occurred while deleting the post"); 
           console.error(err); }); } }
+  const [isLiked, setIsLiked] = useState(data.is_liked);      
+  const [likes, setLikes] = useState(data.likes);      
+  const handleLikeClick = ()=>{
+    // TODO: send request to like the post
+    // data.id
+    console.log(data.id)
+    setIsLiked(!isLiked);
+    // setLikes
+  }        
   return (
     !deleted?(
     <div className='post' style={{visibility:deleted?"hidden":"visible"}}>
@@ -83,19 +92,19 @@ function Post(props) {
       <Divider sx={{margin: "10px 15px"}}/>
       <div className='post_info'>
       <div className='post_info_left_side'>
-      {data.is_liked
-      ?<IconButton>
+      {isLiked
+      ?<IconButton onClick={handleLikeClick}>
           <FavoriteIcon sx={{color:'red'}} fontSize="small"/>
-          <div className='post_likes'>{data.likes}</div>
+          <div className='post_likes'>{likes}</div>
         </IconButton>
-      :<IconButton>
+      :<IconButton onClick={handleLikeClick}>
           <FavoriteBorderIcon fontSize="small"/>
-          <div className='post_likes'>{data.likes}</div>
+          <div className='post_likes'>{likes}</div>
         </IconButton>
       }
-        <IconButton >
+        {/* <IconButton >
           <ChatBubbleOutlineIcon fontSize="small"/>
-        </IconButton>
+        </IconButton> */}
       </div>
       <div className='post_info_right_side'>
         {formattedDateTime}

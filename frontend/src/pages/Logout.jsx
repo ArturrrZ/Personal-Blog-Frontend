@@ -3,13 +3,14 @@ import Button from '@mui/material/Button';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 function Logout(props) {
-    const {setAuthenticated} = props
+    const {setAuthenticated, setCreator} = props
     const navigate = useNavigate()
     function handleLogout(){
         api.get("/api/user/logout/")
         .then(response=>{
             alert("You're successfully logged out!")
             setAuthenticated(false)
+            setCreator(false)
             sessionStorage.clear()
             navigate("/login")
         })
@@ -19,9 +20,9 @@ function Logout(props) {
     }
 
   return (
-    <div>
+    <div className='logout'>
         <h3>Are you sure you want to log out?</h3>
-        <Button variant="contained" size="large" onClick={handleLogout}>
+        <Button variant="contained" size="large" onClick={handleLogout} sx={{marginBottom: '15px'}}>
             Yes
         </Button>  
         <Button variant="outlined" size="large" onClick={()=>{navigate("/")}}>

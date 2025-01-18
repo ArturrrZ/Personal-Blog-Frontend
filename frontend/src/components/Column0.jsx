@@ -36,6 +36,7 @@ function Column0(props) {
   return (
     <div className='column0'>
         <img className="profile-pic" alt='profile picture' src={data.profile.profile_picture}/>
+        <p className='profile_username'>@{data.profile.username}</p>
         <p className='profile_sub_total'>{data.profile.subscribers}</p>
         <p className='profile_sub' >subscribers</p>
         {data.is_subscribed

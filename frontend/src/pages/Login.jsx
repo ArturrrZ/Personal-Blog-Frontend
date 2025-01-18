@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom"
 import "../styles/login.css"
 
 function Login(props) {
-    const {setAuthenticated} = props
+    const {setAuthenticated, setCreator} = props
     const navigate = useNavigate()
     const [login, setLogin] = useState("")
     function handleLoginChange(e){
@@ -24,6 +24,10 @@ function Login(props) {
         })
         .then(response=>{
             setAuthenticated(true)
+            // console.log(response.data)
+            if (response.data.is_creator) {
+                setCreator(true);
+            }
             navigate("/")
         })
         .catch(err=>{
