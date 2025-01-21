@@ -45,8 +45,28 @@ function Post(props) {
     // TODO: send request to like the post
     // data.id
     console.log(data.id)
-    setIsLiked(!isLiked);
+    api.put(`/api/post/like/${data.id}/`)
+    .then(res=>{
+      setIsLiked(!isLiked);
+      if (isLiked) {
+        setLikes((prev)=> prev - 1)
+      }
+      else {
+        setLikes((prev) => prev + 1)
+      }
+    })
+    .catch(err=>{console.log(err)})
     // setLikes
+  }
+  const [isReported, setIsReported] = useState(data.is_reported);
+  const handleReportClick = ()=>{
+    api.post(`/api/post/report/${data.id}/`)
+    .then(res=>{
+      // setIsReported(!isLiked);
+      console.log('reported!')
+      setIsReported(true);
+    })
+    .catch(err=>{console.log(err)})
   }        
   return (
     !deleted?(
@@ -59,7 +79,7 @@ function Post(props) {
       <nav aria-label="main mailbox folders">
         <List>
         {!myPage&&<ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton disabled={isReported} onClick={handleReportClick}>
               <ListItemIcon>
                 <ReportIcon />
               </ListItemIcon>
