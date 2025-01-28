@@ -131,7 +131,8 @@ function Post(props) {
       </div>
            
       </div>
-      
+    {isReported&&<Alert severity="warning">Thanks for your feedback</Alert>
+    }  
     </div>
   )
   :<Alert variant="filled" severity="success">

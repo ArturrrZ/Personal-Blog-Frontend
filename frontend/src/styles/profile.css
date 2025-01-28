@@ -100,3 +100,6 @@
     background-color: #ffffff;
     height: 250px;
 }
+.prof_top_part img {
+    object-fit: cover; /* Обеспечивает обрезку изображения с сохранением пропорций */
+  }

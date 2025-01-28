@@ -3,6 +3,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import api from '../api';
 import {useNavigate} from "react-router-dom"
+import { Alert } from '@mui/material';
+
 
 function Register() {
     const navigate = useNavigate()
@@ -12,6 +14,12 @@ function Register() {
         password:""
     })
     const [err, setErr] = useState(false)
+    const [improperEmail, setImproperEmail] = useState(false);
+    const [finish, setFinish] = useState(false);
+    function checkEmailPattern(email){
+        const pattern = /.+@.+\..+$/;
+        return  pattern.test(email)
+    }
     function handleFormChange(e){
         const {name, value} = e.target;
         setForm(prevForm=>{return {
@@ -19,8 +27,14 @@ function Register() {
             [name]: value
         }})
     }
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
+        const properEmail = await checkEmailPattern(form.email);
+        if (!properEmail) {
+            setImproperEmail(true)
+            setTimeout(()=>{setImproperEmail(false)}, 3000)
+            return 1
+        }
         console.log(form);
         api.post("/api/user/register/", {
             "username": form.username,
@@ -28,8 +42,8 @@ function Register() {
             "email": form.email,
         })
         .then(response=>{
-            alert("You created a user!")
-            navigate("/login")
+            setFinish(true)
+            setTimeout(()=>{navigate("/login")}, 3000)            
         })
         .catch(err=>{
             console.log(err)
@@ -39,7 +53,7 @@ function Register() {
     }
   return (
     <div className='registerPage'>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off">
         <TextField 
         error={err}
         id="standard-basic" 
@@ -60,6 +74,7 @@ function Register() {
         helperText="e.g. email@email.com"
         required    
         />
+        {improperEmail&&<Alert severity="error">Please use a proper email pattern.</Alert>}
         <br/>
         <TextField
         id="outlined-password-input"
@@ -75,7 +90,8 @@ function Register() {
         {err&&<p style={{color:'red'}}>
             User with this email/username is already exist.
         </p>}
-        <Button variant="contained" type='submit'>Register</Button>
+        <Button variant="contained" type='submit' disabled={improperEmail}>Register</Button>
+        {finish&&<Alert severity="success">You created a user!</Alert>}
       </form>
     </div>
   )

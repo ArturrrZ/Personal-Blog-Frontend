@@ -3,3 +3,13 @@ body {
 }
 .sticky-nav { z-index: 1100; /* Adjust as needed to ensure your NavBar stays on top */}
 .main-content { padding-top: 64px; /* После настройки этого значения, имитируем высоту NavBar; при необходимости настройте его */ }
+.home_h3 {
+    text-align: center;
+}
+.registerPage{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 50vh;
+}
