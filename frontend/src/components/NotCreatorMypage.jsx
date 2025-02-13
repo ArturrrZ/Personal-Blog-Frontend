@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 function NotCreatorMypage() {
   const navigate = useNavigate();
   const handelClick = ()=>{
-    navigate("/creator/become/")
+    navigate("/creator/subscription_plan/")
   }
   return (
     <div className='not_creator'>

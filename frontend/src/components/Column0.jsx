@@ -5,6 +5,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import { Button } from '@mui/material';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { useNavigate } from 'react-router-dom';
+import api from '../api';
+
 // import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 // const VisuallyHiddenInput = styled('input')({
@@ -35,6 +37,16 @@ import { useNavigate } from 'react-router-dom';
 function Column0(props) {
     const {data} = props;
     const navigate = useNavigate()
+    function handleFollowClick(){
+      api.post("/api/subscribe_stripe/", {
+        username: data.profile.username
+      })
+      .then(res=>{
+        console.log(res.data)
+        window.open(res.data.checkout_url, "_blank");
+      })
+      .catch(err=>{console.log(err)})
+    }
   return (
     <div className='column0'>
         <img className="profile-pic" alt='profile picture' src={data.profile.profile_picture}/>
@@ -43,7 +55,7 @@ function Column0(props) {
         <p className='profile_sub' >subscribers</p>
         {data.is_subscribed
         ?<Button disabled className='profile_button' variant="outlined" startIcon={<CheckBoxIcon/>}>Following</Button>
-        :(data.my_page?<Button onClick={()=>{navigate('/creator/edit/')}} className='profile_button' variant="contained">Edit Profile</Button>:<Button className='profile_button' variant="contained">Follow</Button>)}
+        :(data.my_page?<Button onClick={()=>{navigate('/creator/edit/')}} className='profile_button' variant="contained">Edit Profile</Button>:<Button onClick={handleFollowClick} className='profile_button' variant="contained">Follow</Button>)}
         <div>
           {data.profile.youtube?
           <IconButton  size='large' onClick={()=>{window.open(data.profile.youtube)}}>

@@ -103,3 +103,11 @@
 .prof_top_part img {
     object-fit: cover; /* Обеспечивает обрезку изображения с сохранением пропорций */
   }
+.subscription_plan  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    height: 50vh;
+    justify-content: center;
+}

@@ -16,6 +16,7 @@ import CreatePost from './pages/CreatePost'
 import EditPost from './pages/EditPost'
 import BecomeCreator from './pages/BecomeCreator'
 import EditCreator from './pages/EditCreator'
+import SubscriptionPlan from './pages/SubscriptionPlan'
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Route path='/register' element={<AuthorizationRoute authenticated={authenticated}><Register/></AuthorizationRoute>}/>
         <Route path='/logout' element={<ProtectedRoute><Logout setAuthenticated={setAuthenticated} setCreator={setCreator}/></ProtectedRoute>}/>
         <Route path='/user/:username' element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
+        <Route path='/creator/subscription_plan/' element={<ProtectedRoute><SubscriptionPlan  creator={creator} setCreator={setCreator}/></ProtectedRoute>}/>
         <Route path='/creator/become/' element={<ProtectedRoute><BecomeCreator setCreator={setCreator}/></ProtectedRoute>}/>
         <Route path='/creator/edit/' element={<ProtectedRoute><EditCreator setCreator={setCreator}/></ProtectedRoute>}/>
         <Route path='/post/create' element={<ProtectedRoute><CreatePost /></ProtectedRoute>}/>

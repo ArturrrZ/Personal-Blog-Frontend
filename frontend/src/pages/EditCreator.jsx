@@ -41,11 +41,11 @@ function EditCreator(props) {
         api.get("/api/user/creator/")
         .then(res=>{
             setFormData({
-            first_name: res.data.first_name,
-            last_name: res.data.last_name,
-            instagram: res.data.instagram,
-            youtube: res.data.youtube,
-            about: res.data.about,
+            first_name: res.data.first_name || "",
+            last_name: res.data.last_name || "",
+            instagram: res.data.instagram || "",
+            youtube: res.data.youtube || "",
+            about: res.data.about || "",
             files: [],
             previewUrl: `${baseURL}${res.data.profile_picture}`,
             })
@@ -149,7 +149,8 @@ function EditCreator(props) {
                 onChange={handleFileChange}    
                 />
             </Button>
-            {formData.previewUrl && <img src={formData.previewUrl} alt="Preview" height={200} width={200}/>}            <Button type="submit" variant="outlined" >
+            {formData.previewUrl && <img src={formData.previewUrl} alt="Preview" height={200} width={200}/>}            
+            <Button type="submit" variant="contained" color='success'>
                 Submit
             </Button>
         </form>
