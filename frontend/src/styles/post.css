@@ -13,6 +13,7 @@
 }
 .post_img {
     width: 100%;
+    cursor: pointer;
 }
 .post {
     margin-bottom: 20px;
@@ -46,4 +47,9 @@
     flex-direction: column;
     margin: 50px 30%;
     gap: 15px;
+}
+@media (max-width: 768px){
+    .post_create{
+        margin: 50px 10%;
+    }
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import "../styles/post.css"
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -18,10 +18,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import api from "../api";
 import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
-
+import Dialog from '@mui/material/Dialog';
 
 
 function Post(props) {
+  const [locked, setLocked] = useState(false);
+  useEffect(() => {
+    if (data.title === 'Locked Content') {
+      setLocked(true);
+    }
+  }, []); 
   const navigate = useNavigate();
     const {data, myPage} = props
     const [showList, setShowList] = React.useState(false);
@@ -67,7 +73,11 @@ function Post(props) {
       setIsReported(true);
     })
     .catch(err=>{console.log(err)})
-  }        
+  }    
+   // open an image on the full screen
+   const [open, setOpen] = useState(false);
+  // if post is locked
+  
   return (
     !deleted?(
     <div className='post' style={{visibility:deleted?"hidden":"visible"}}>
@@ -108,11 +118,35 @@ function Post(props) {
       </div>
       </div>
       <div className='post_body'>{data.body}</div>
-      <img className='post_img' src={data.image}/>
+      <img 
+      className='post_img' 
+      src={data.image}
+      onClick={() => setOpen(true)}   
+      />
+      {locked&&
+      <img 
+      className='post_img' 
+      src='https://media.istockphoto.com/id/936681148/vector/lock-icon.jpg?s=612x612&w=0&k=20&c=_0AmWrBagdcee-KDhBUfLawC7Gh8CNPLWls73lKaNVA='
+      alt='locked image'
+      />}
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        fullWidth
+        maxWidth="md"
+      >
+        <img 
+          src={data.image} 
+          alt="Full View" 
+          style={{ width: '100%', height: 'auto' }} 
+          onClick={() => setOpen(false)}
+        />
+      </Dialog>
       <Divider sx={{margin: "10px 15px"}}/>
       <div className='post_info'>
       <div className='post_info_left_side'>
-      {isLiked
+      {!locked&&(
+      isLiked
       ?<IconButton onClick={handleLikeClick}>
           <FavoriteIcon sx={{color:'red'}} fontSize="small"/>
           <div className='post_likes'>{likes}</div>
@@ -121,7 +155,7 @@ function Post(props) {
           <FavoriteBorderIcon fontSize="small"/>
           <div className='post_likes'>{likes}</div>
         </IconButton>
-      }
+      )}
         {/* <IconButton >
           <ChatBubbleOutlineIcon fontSize="small"/>
         </IconButton> */}

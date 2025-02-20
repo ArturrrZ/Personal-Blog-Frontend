@@ -32,7 +32,7 @@ function ProfileSubscribed(props) {
       <div className='profile-main-grid'>
       <Column0 data={data}/>
       <Column1 data={data}/>
-      <div className=''>
+      <div className='profile_subscription_div'>
         <Button variant='outlined' color='error' onClick={handleCancel}>Cancel subscription</Button>
       </div>
       </div>

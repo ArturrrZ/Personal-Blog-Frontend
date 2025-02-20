@@ -111,3 +111,25 @@
     height: 50vh;
     justify-content: center;
 }
+
+@media (max-width: 768px) { 
+    .profile-main-grid{
+        display: flex;
+        flex-direction: column;
+        margin: 20px 7%;
+        gap: 15px;
+    }
+    .column0 {
+        top: 0px;
+    }
+    .not_creator {
+        margin: 50px 15%;
+    }
+    .profile_subscription_div{
+        order: -1;
+        align-self: center;
+    }
+    .column2 {
+        order:-1;
+    }
+}    

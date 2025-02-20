@@ -101,6 +101,9 @@ export default function NavBar(props) {
     else if (e.target.id ==='edit') {
       navigate("/creator/edit/")
     }
+    else if (e.target.id === 'feed'){
+      navigate("/")
+    }
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -163,6 +166,7 @@ export default function NavBar(props) {
                 <MenuItem onClick={handleClose} id="profile">My page</MenuItem>
                 {creator&&<MenuItem onClick={handleClose} id="edit">Edit Profile</MenuItem>}
                 {creator&&<MenuItem onClick={handleClose} id="create">Create a post</MenuItem>}
+                <MenuItem onClick={handleClose} id="feed">My Subscriptions</MenuItem>
                 <Divider/>
                 <MenuItem onClick={handleClose} id="logout">Logout</MenuItem>
               </Menu>

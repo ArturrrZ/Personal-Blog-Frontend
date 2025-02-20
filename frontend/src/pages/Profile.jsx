@@ -18,7 +18,7 @@ function Profile() {
     useEffect(()=>{
         api.get(`/api/user/profile/${username}/`)
         .then(res=>{
-            // console.log(res.data)
+            console.log(res.data)
             setData(res.data)
         })
         .catch(err=>{

@@ -17,7 +17,7 @@ function ProtectedRoute({ children }) {
         api.get("/api/user/refresh_token/")
         .then(res=>{console.log(res.data)})
         .catch(err=>{
-          alert("You need to be logged in!")
+          // alert("You need to be logged in!")
           navigate("/login")})
       }
     };
