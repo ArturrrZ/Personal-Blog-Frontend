@@ -112,6 +112,11 @@
     justify-content: center;
 }
 
+.media {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 @media (max-width: 768px) { 
     .profile-main-grid{
         display: flex;

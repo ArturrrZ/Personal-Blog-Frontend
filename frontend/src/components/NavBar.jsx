@@ -66,7 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar(props) {
     const {authenticated, user, creator} = props
-    const username = sessionStorage.getItem("username")
+    const username = user;
     const navigate = useNavigate()
     const [searchQuery, setSearchQuery] = React.useState("")
     const handleSearchChange = (e)=> {
