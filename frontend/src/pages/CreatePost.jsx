@@ -7,6 +7,18 @@ import Checkbox from '@mui/material/Checkbox';
 import api from '../api';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
+import { useNavigate } from 'react-router-dom';
+
+async function updateRefreshToken() {
+  try {
+      const res = await api.post("/api/user/refresh_token/")
+      return true
+  }
+  catch (err) {
+      console.error("Failed to refresh access token: ", err)
+      return false
+  } 
+}
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -80,7 +92,44 @@ function CreatePost() {
         }); 
     }, 2000)
   })
-    .catch(function (error) {
+    .catch(async function (error) {
+      if (error.response && error.response.status === 401) {
+        const updated = await updateRefreshToken();
+        if (updated) {
+          try {
+            // resubmit
+            const secondsubmitres = await api.post("/api/post/create/", formDataObj, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              }
+            })
+            setPostCreated(true);
+            setTimeout(()=>{
+        setPostCreated(false);
+        setFormData({
+          title: '',
+          body: '',
+          is_paid: false,
+          files: [],
+        }); 
+            }, 2000)
+            return 0
+          }
+          catch (err) {
+            console.log(error);
+            setApiError(true);
+            setTimeout(()=>{
+              setApiError(false);
+            }, 3000)
+            return 0
+          } 
+        }
+        else {
+          console.log("renavigate")
+          return 0
+        }
+      }
+      
       console.log(error);
       setApiError(true);
       setTimeout(()=>{

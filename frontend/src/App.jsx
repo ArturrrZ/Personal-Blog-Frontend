@@ -13,7 +13,7 @@ import NavBar from "./components/NavBar"
 import AuthorizationRoute from './pages/AuthorizationRoute'
 import Profile from './pages/Profile'
 import CreatePost from './pages/CreatePost'
-import EditPost from './pages/EditPost'
+import EditPost3 from './pages/EditPost3'
 import BecomeCreator from './pages/BecomeCreator'
 import EditCreator from './pages/EditCreator'
 import SubscriptionPlan from './pages/SubscriptionPlan'
@@ -35,17 +35,21 @@ function App() {
       setAuthenticated(response.data.is_authenticated)
       setCreator(response.data.is_creator)
       setUser(response.data.user)
+      sessionStorage.setItem('username', response.data.user)
+      sessionStorage.setItem('is_creator', response.data.is_creator)
     })
     .catch(err=>{
-        api.get("/api/user/refresh_token/")
+        api.post("/api/user/refresh_token/")
         .then(res => {
-          // console.log("Token refreshed:")
+          console.log("Token refreshed:")
           setAuthenticated(true);
           setUser(res.data.user);
           setCreator(res.data.is_creator);
+          sessionStorage.setItem('username', res.data.user)
+          sessionStorage.setItem('is_creator', res.data.is_creator)
         })
         .catch(refreshErr => {
-          // console.error("Refresh token failed:", refreshErr)
+          console.error("Refresh token failed:", refreshErr)
           setAuthenticated(false)
         })
     })
@@ -69,7 +73,7 @@ function App() {
         {/* <Route path='/creator/become/' element={<ProtectedRoute><BecomeCreator setCreator={setCreator}/></ProtectedRoute>}/> */}
         <Route path='/creator/edit/' element={<CreatorRoute authenticated={authenticated} creator={creator}><EditCreator setCreator={setCreator}/></CreatorRoute>}/>
         <Route path='/post/create' element={<CreatorRoute authenticated={authenticated} creator={creator}><CreatePost /></CreatorRoute>}/>
-        <Route path='/post/edit/:id/' element={<CreatorRoute authenticated={authenticated} creator={creator}><EditPost /></CreatorRoute>}/>
+        <Route path='/post/edit/:id/' element={<CreatorRoute authenticated={authenticated} creator={creator}><EditPost3 /></CreatorRoute>}/>
         <Route path='/404' element={<NotFound/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>

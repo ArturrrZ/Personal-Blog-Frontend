@@ -1,8 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../api.js';
 import {useNavigate, Navigate} from 'react-router-dom'
+import updateAccessToken from '../apiUpdateAccess.js'
+
+
+
 function ProtectedRoute({ children, authenticated }) {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
   // useEffect(() => {
   //   async function checkAuth(){
   //     try {
@@ -25,13 +30,34 @@ function ProtectedRoute({ children, authenticated }) {
   //   checkAuth();
   // }, []); // Empty dependency array ensures this runs once on mount
   useEffect(()=>{
+    async function checkAccessToken(){
+      const access_token_expiration = sessionStorage.getItem("access_token_expiration");
+      if (!access_token_expiration) {
+        console.log("No access token expiration found — redirecting to login");
+        navigate("/login");
+        return;
+      }
+      const expiration = new Date(access_token_expiration);
+      const now = new Date();
+      if (expiration <= now) {
+          const updated = await updateAccessToken();
+          if (!updated) {
+            navigate("/login")
+          }
+          else {console.log("successfully updated access token!!!")}
+      }
+      setLoading(false)
+    }
+
     if (!authenticated) {
       console.log("unuthorized")
       navigate("/login")
     }
+    checkAccessToken()
+   
   }, [authenticated])
 
-  return authenticated ? <div>{children}</div> : null;
+  return !loading ? <div>{children}</div> : null;
 }
 
 export default ProtectedRoute;

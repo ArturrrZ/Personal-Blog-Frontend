@@ -10,7 +10,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import updateAccessToken from '../apiUpdateAccess';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -24,7 +24,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-function CreatePost() {
+function EditPost() {
   const navigate = useNavigate();
     const {id} = useParams();
     const username = sessionStorage.getItem('username')
@@ -113,7 +113,36 @@ function CreatePost() {
         navigate(`/user/${username}`) 
     }, 1000)
   })
-    .catch(function (error) {
+    .catch(async function (error) {
+      if (error.response && error.response.status === 401) {
+        const updated = await updateAccessToken();
+        if (updated) {
+          try {
+            const secondTry = await api.put(`/api/post/edit/${id}/`, formDataObj, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              }
+            })
+            setPostCreated(true);
+             setTimeout(()=>{
+               setPostCreated(false);
+               setFormData({
+                 title: '',
+                 body: '',
+                 is_paid: false,
+                 files: [],
+               });
+               navigate(`/user/${username}`) 
+           }, 1000)     
+          }
+          catch (err) {
+          console.log(error);
+          }}
+        else {
+          navigate('/login')
+        }
+      }
+
       console.log(error);
       setApiError(true);
       setTimeout(()=>{
@@ -188,4 +217,4 @@ function CreatePost() {
   );
 }
 
-export default CreatePost;
+export default EditPost;

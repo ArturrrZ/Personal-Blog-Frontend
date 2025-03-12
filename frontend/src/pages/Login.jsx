@@ -23,6 +23,8 @@ function Login(props) {
             password: password
         })
         .then(response=>{
+            console.log(response.data)
+            sessionStorage.setItem("access_token_expiration", response.data.expiration)
             setAuthenticated(true)
             setUser(response.data.user)
             // console.log(response.data)
