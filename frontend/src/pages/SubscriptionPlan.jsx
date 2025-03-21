@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Unstable_NumberInput as BaseNumberInput } from '@mui/base/Unstable_NumberInput';
 import { Button } from '@mui/material';
@@ -148,10 +148,8 @@ const StyledButton = styled('button')(
 function SubscriptionPlan(props) {
     const navigate = useNavigate();
     const username = sessionStorage.getItem("username")
+    const [loading, setLoading] = React.useState(true);
     const {creator ,setCreator} = props
-    if (creator) {
-        navigate(`/user/${username}`)
-    }
     const [price, setPrice] = React.useState(1);
     function handleSubmit(e){
         e.preventDefault()
@@ -165,9 +163,18 @@ function SubscriptionPlan(props) {
         .catch(err=>{
             // for some reason err
             console.log(err)
-            setCreator(true)
-            navigate('/creator/edit/')
+            // setCreator(true)
+            // navigate('/creator/edit/')
         })
+    }
+    useEffect(()=>{
+      if (creator) {
+        navigate(`/user/${username}`)
+      }
+      else {setLoading(false)}
+    }, [])
+    if (loading) {
+      return <div>Loading...</div>
     }
   return (
     <div>

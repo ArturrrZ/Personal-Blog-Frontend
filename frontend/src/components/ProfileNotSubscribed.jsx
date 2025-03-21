@@ -6,7 +6,7 @@ import Column2 from './Column2';
 
 function ProfileNotSubscribed(props) {
   const {data} = props;
-  console.log(data);
+  // console.log(data);
   return (
     <div>
       <div className='profile-main-grid'>

@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import api from '../api'
+import updateAccessToken from '../apiUpdateAccess';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -36,7 +37,7 @@ function EditCreator(props) {
     })
     useEffect(() => { 
         if (is_creator === 'false') { 
-            navigate(`/creator/become/`); 
+            navigate(`/creator/subscription_plan/`); 
         }
         api.get("/api/user/creator/")
         .then(res=>{
@@ -89,7 +90,9 @@ function EditCreator(props) {
         console.log(res.data)
         navigate(`/user/${username}`)
       })
-      .catch(err=>{console.log(err)})
+      .catch((err)=>{
+        console.log(err)
+      })
     };
                       
   return (

@@ -12,7 +12,7 @@ import api from '../api';
 
 function ProfileSubscribed(props) {
     const {data} = props
-    console.log(data)
+    // console.log(data)
     function handleCancel(){
       if (window.confirm("Do you really want to cancel subscription?"))
       {

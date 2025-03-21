@@ -115,6 +115,7 @@
 .media {
     display: flex;
     flex-wrap: wrap;
+    gap: 5px;
 }
 
 @media (max-width: 768px) { 
@@ -138,3 +139,6 @@
         order:-1;
     }
 }    
+.post_media_img {
+    cursor: pointer;
+}

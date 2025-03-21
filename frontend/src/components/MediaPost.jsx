@@ -4,6 +4,7 @@ import Dialog from '@mui/material/Dialog';
 
 function MediaPost(props) {
     const {data} = props
+    if (!data.image) return null;
     const [locked, setLocked] = React.useState(false)
     useEffect(() => {
         if (data.title === 'Locked Content') {
@@ -13,17 +14,18 @@ function MediaPost(props) {
     console.log(data)
     const [open, setOpen] = React.useState(false)
   return (
-    <div>
+    <span >
     {!locked&&
       <img
       className='post_media_img' 
       src={data.image}
       onClick={() => setOpen(true)}
-      width={'200px'}  
+      width={'200px'} height={'200px'} 
       />}
       {locked&&  
       <img
-            width={'200px'} 
+            width={'200px'}
+            height={'200px'} 
             className='post_media_img' 
             src='https://media.istockphoto.com/id/936681148/vector/lock-icon.jpg?s=612x612&w=0&k=20&c=_0AmWrBagdcee-KDhBUfLawC7Gh8CNPLWls73lKaNVA='
             alt='locked image'
@@ -41,7 +43,7 @@ function MediaPost(props) {
                 onClick={() => setOpen(false)}
               />
             </Dialog>
-    </div>
+    </span>
   )
 }
 

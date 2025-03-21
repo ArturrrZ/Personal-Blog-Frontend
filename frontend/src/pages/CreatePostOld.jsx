@@ -83,7 +83,44 @@ function CreatePost() {
         }); 
     }, 2000)
   })
-    .catch(async function (error) {   
+    .catch(async function (error) {
+      if (error.response && error.response.status === 401) {
+        const updated = await updateAccessToken();
+        if (updated) {
+          try {
+            // resubmit
+            const secondsubmitres = await api.post("/api/post/create/", formDataObj, {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              }
+            })
+            setPostCreated(true);
+            setTimeout(()=>{
+        setPostCreated(false);
+        setFormData({
+          title: '',
+          body: '',
+          is_paid: false,
+          files: [],
+        }); 
+            }, 2000)
+            return 0
+          }
+          catch (err) {
+            console.log(error);
+            setApiError(true);
+            setTimeout(()=>{
+              setApiError(false);
+            }, 3000)
+            return 0
+          } 
+        }
+        else {
+          navigate("/login")
+          return 0
+        }
+      }
+      
       console.log(error);
       setApiError(true);
       setTimeout(()=>{
@@ -105,7 +142,6 @@ function CreatePost() {
           variant="outlined"
           value={formData.title}
           onChange={handleInputChange}
-          required
         />
         <TextField
           name="body"
@@ -116,7 +152,6 @@ function CreatePost() {
           rows={4}
           value={formData.body}
           onChange={handleInputChange}
-          required
         />
         <Button
           disabled={postCreated || apiError}

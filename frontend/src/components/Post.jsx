@@ -118,11 +118,11 @@ function Post(props) {
       </div>
       </div>
       <div className='post_body'>{data.body}</div>
-      <img 
+      {!locked&&<img 
       className='post_img' 
       src={data.image}
       onClick={() => setOpen(true)}   
-      />
+      />}
       {locked&&
       <img 
       className='post_img' 
