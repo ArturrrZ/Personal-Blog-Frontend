@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Unstable_NumberInput as BaseNumberInput } from '@mui/base/Unstable_NumberInput';
 import { Button } from '@mui/material';
@@ -6,7 +6,7 @@ import { styled } from '@mui/system';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import api from '../api';
-
+import { AuthContext } from '../AuthContext';
 
 const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
   return (
@@ -147,9 +147,9 @@ const StyledButton = styled('button')(
 
 function SubscriptionPlan(props) {
     const navigate = useNavigate();
-    const username = sessionStorage.getItem("username")
+    const {creator ,setCreator, user} = useContext(AuthContext);
+    const username = user;
     const [loading, setLoading] = React.useState(true);
-    const {creator ,setCreator} = props
     const [price, setPrice] = React.useState(1);
     function handleSubmit(e){
         e.preventDefault()

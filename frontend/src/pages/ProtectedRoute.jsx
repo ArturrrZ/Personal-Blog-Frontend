@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import updateAccessToken from '../apiUpdateAccess.js';
+import { AuthContext } from '../AuthContext.js';
 
-function ProtectedRoute({ children, authenticated, setAuthenticated }) {
+function ProtectedRoute({ children}) {
+    const {authenticated, setAuthenticated} = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
     const [loading, setLoading] = useState(true);
@@ -21,7 +23,7 @@ function ProtectedRoute({ children, authenticated, setAuthenticated }) {
         return <div>Loading...</div>;
     }
 
-    return !loading&&<div>{children}</div>;
+    return <div>{children}</div>;
 }
 
 export default ProtectedRoute;

@@ -14,12 +14,11 @@ import AuthorizationRoute from './pages/AuthorizationRoute'
 import Profile from './pages/Profile'
 import CreatePost from './pages/CreatePost'
 import EditPost from './pages/EditPost'
-import BecomeCreator from './pages/BecomeCreator'
 import EditCreator from './pages/EditCreator'
 import SubscriptionPlan from './pages/SubscriptionPlan'
 import { Navigate } from 'react-router-dom'
 import CreatorRoute from './pages/CreatorRoute'
-
+import { AuthContext } from './AuthContext'
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false)
@@ -33,8 +32,6 @@ function App() {
         setAuthenticated(response.data.is_authenticated);
         setCreator(response.data.is_creator);
         setUser(response.data.user);
-        sessionStorage.setItem('username', response.data.user);
-        sessionStorage.setItem('is_creator', response.data.is_creator);
       } catch (err) {
         console.warn("check-auth failed. Error: ", err);
       } finally {
@@ -48,25 +45,26 @@ function App() {
   if (loading) return <div>Loading...</div>;
 
   return (
+    <AuthContext.Provider value={{authenticated, setAuthenticated, user, setUser, creator, setCreator}}>
     <BrowserRouter>
-      <NavBar user={user} authenticated={authenticated} creator={creator}/>
+      <NavBar/>
       <div className='main-content'>
       <Routes>
-        <Route path='/login'  element={<AuthorizationRoute authenticated={authenticated} ><Login setAuthenticated={setAuthenticated} setCreator={setCreator} setUser={setUser}/></AuthorizationRoute>}/>
-        <Route path='/register' element={!authenticated?<Register/>:<Navigate to="/"/>}/>
-        <Route path='/' element={<ProtectedRoute setAuthenticated={setAuthenticated} authenticated={authenticated}><Home/></ProtectedRoute>}/>
-        <Route path='/logout' element={<ProtectedRoute setAuthenticated={setAuthenticated} authenticated={authenticated}><Logout setAuthenticated={setAuthenticated} setCreator={setCreator}/></ProtectedRoute>}/>
-        <Route path='/user/:username' element={<ProtectedRoute setAuthenticated={setAuthenticated} authenticated={authenticated}><Profile /></ProtectedRoute>}/>
-        <Route path='/creator/subscription_plan/' element={<ProtectedRoute setAuthenticated={setAuthenticated} authenticated={authenticated}><SubscriptionPlan  creator={creator} setCreator={setCreator}/></ProtectedRoute>}/>
-        {/* <Route path='/creator/become/' element={<ProtectedRoute><BecomeCreator setCreator={setCreator}/></ProtectedRoute>}/> */}
-        <Route path='/creator/edit/' element={<CreatorRoute setAuthenticated={setAuthenticated} authenticated={authenticated} creator={creator}><EditCreator setCreator={setCreator}/></CreatorRoute>}/>
-        <Route path='/post/create' element={<CreatorRoute setAuthenticated={setAuthenticated} authenticated={authenticated} creator={creator}><CreatePost /></CreatorRoute>}/>
-        <Route path='/post/edit/:id/' element={<CreatorRoute setAuthenticated={setAuthenticated} authenticated={authenticated} creator={creator}><EditPost/></CreatorRoute>}/>
+        <Route path='/login'  element={<AuthorizationRoute><Login /></AuthorizationRoute>}/>
+        <Route path='/register' element={<AuthorizationRoute><Register /></AuthorizationRoute>}/>
+        <Route path='/' element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+        <Route path='/logout' element={<ProtectedRoute><Logout/></ProtectedRoute>}/>
+        <Route path='/user/:username' element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
+        <Route path='/creator/subscription_plan/' element={<ProtectedRoute><SubscriptionPlan/></ProtectedRoute>}/>
+        <Route path='/creator/edit/' element={<CreatorRoute><EditCreator/></CreatorRoute>}/>
+        <Route path='/post/create' element={<CreatorRoute><CreatePost /></CreatorRoute>}/>
+        <Route path='/post/edit/:id/' element={<CreatorRoute><EditPost/></CreatorRoute>}/>
         <Route path='/404' element={<NotFound/>}/>
         <Route path='*' element={<NotFound/>}/>
       </Routes>
       </div>
     </BrowserRouter>
+    </AuthContext.Provider>
   )
 }
 

@@ -1,12 +1,13 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import api from '../api';
 import {useNavigate} from "react-router-dom"
 import "../styles/login.css"
+import { AuthContext } from '../AuthContext';
 
-function Login(props) {
-    const {setAuthenticated, setCreator, setUser} = props
+function Login() {
+    const {setAuthenticated, setCreator, setUser} = useContext(AuthContext);
     const navigate = useNavigate()
     const [login, setLogin] = useState("")
     function handleLoginChange(e){

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import updateAccessToken from '../apiUpdateAccess';
+import { AuthContext } from '../AuthContext';
 
-function CreatorRoute({ authenticated, creator, children, setAuthenticated }) {
+function CreatorRoute({children}) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
+  const {authenticated, creator, setAuthenticated} = useContext(AuthContext)
   useEffect(() => {
     async function validateAccess() {
       if (!authenticated) {

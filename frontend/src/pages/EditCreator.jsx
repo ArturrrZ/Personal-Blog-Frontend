@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/creator.css'
 import TextField from '@mui/material/TextField';
@@ -7,6 +7,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import api from '../api'
 import updateAccessToken from '../apiUpdateAccess';
+import { AuthContext } from '../AuthContext';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -21,11 +22,12 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
   });
 
-function EditCreator(props) {
+function EditCreator() {
     const baseURL = 'http://localhost:8000/';
     const navigate = useNavigate();
-    const is_creator = sessionStorage.getItem("is_creator");
-    const username = sessionStorage.getItem("username");
+    const {creator, user} = useContext(AuthContext);
+    const is_creator = creator;
+    const username = user;
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',

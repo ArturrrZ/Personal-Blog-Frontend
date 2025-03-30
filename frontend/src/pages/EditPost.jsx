@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -10,6 +10,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import { useParams, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import updateAccessToken from '../apiUpdateAccess'
+import { AuthContext } from '../AuthContext';
+
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -24,9 +26,10 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 function EditPost3() {
+  const {user} = useContext(AuthContext)
   const navigate = useNavigate();
   const { id } = useParams();
-  const username = sessionStorage.getItem('username');
+  const username = user;
 
   const [formData, setFormData] = useState({
     title: '',

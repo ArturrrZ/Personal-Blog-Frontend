@@ -1,13 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Button from '@mui/material/Button';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
+import { AuthContext } from '../AuthContext';
 
 
-
-function Logout(props) {
-    const {setAuthenticated, setCreator} = props
+function Logout() {
+    const {setAuthenticated, setCreator} = useContext(AuthContext);
     const [finish, setFinish] = React.useState(false);
     const navigate = useNavigate()
     function handleLogout(){

@@ -20,7 +20,7 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Divider } from '@mui/material';
-
+import { AuthContext } from '../AuthContext';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -64,8 +64,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar(props) {
-    const {authenticated, user, creator} = props
+export default function NavBar() {
+    const {authenticated, user, creator} = React.useContext(AuthContext);
     const username = user;
     const navigate = useNavigate()
     const [searchQuery, setSearchQuery] = React.useState("")
